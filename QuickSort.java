@@ -1,60 +1,73 @@
 import java.util.Arrays;
 
-public class QuickSort {
+class Quicksort {
 
-    public static void quickSort(int[] array, int low, int high) {
-        if (array.length == 0)
-            return;
+    // method to find the partition position
+    public static int partition(int array[], int low, int high) {
 
+        // choose the rightmost element as pivot
+        int pivot = array[high];
 
-        if (low >= high)
-            return;
-        // end if everything is sorted
+        // pointer for greater element
+        int i = (low - 1);
 
-        // select pivot point
-        int middle = low + (high - low) / 2;
-        int pivot = array[middle];
+        // traverse through all elements
+        // compare each element with pivot
+        for (int j = low; j < high; j++) {
+            if (array[j] <= pivot) {
 
-        // разделить на подмассивы, который больше и меньше опорного элемента
-        //divide on subarrays that are bigger and smaller than pivot
-        int i = low, j = high;
-        while (i <= j) {
-            while (array[i] < pivot) {
+                // if element smaller than pivot is found
+                // swap it with the greater element pointed by i
                 i++;
-            }
 
-            while (array[j] > pivot) {
-                j--;
-            }
-
-            if (i <= j) {
-                // swapping elements
+                // swapping element at i with element at j
                 int temp = array[i];
                 array[i] = array[j];
                 array[j] = temp;
-                i++;
-                j--;
             }
+
         }
 
+        // swap the pivot element with the greater element specified by i
+        int temp = array[i + 1];
+        array[i + 1] = array[high];
+        array[high] = temp;
 
-        //recurstion call to sort left and right part
-        if (low < j)
-            quickSort(array, low, j);
-
-        if (high > i)
-            quickSort(array, i, high);
+        // return the position from where partition is done
+        return (i + 1);
     }
-    public static void main(String[] args) {
-        int[] x = { 8, 0, 4, 7, 3, 7, 10, 12, -3 };
-        System.out.println("Unsorted array");
-        System.out.println(Arrays.toString(x));
 
-        int low = 0;
-        int high = x.length - 1;
+    static void quickSort(int array[], int low, int high) {
+        if (low < high) {
 
-        quickSort(x, low, high);
-        System.out.println("Sorted array");
-        System.out.println(Arrays.toString(x));
+            // find pivot element such that
+            // elements smaller than pivot are on the left
+            // elements greater than pivot are on the right
+            int pi = partition(array, low, high);
+
+            // recursive call on the left of pivot
+            quickSort(array, low, pi - 1);
+
+            // recursive call on the right of pivot
+            quickSort(array, pi + 1, high);
+        }
+    }
+}
+
+// Main class
+class Main {
+    public static void main(String args[]) {
+
+        int[] data = { 8, 7, 2, 1, 0, 9, 6 };
+        System.out.println("Unsorted Array");
+        System.out.println(Arrays.toString(data));
+
+        int size = data.length;
+
+        // call quicksort() on array data
+        Quicksort.quickSort(data, 0, size - 1);
+
+        System.out.println("Sorted Array in Ascending Order ");
+        System.out.println(Arrays.toString(data));
     }
 }

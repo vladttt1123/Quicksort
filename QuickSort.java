@@ -41,8 +41,10 @@ class Quicksort {
         if (low < high) {
 
             // find pivot element such that
-            // elements smaller than pivot are on the left
-            // elements greater than pivot are on the right
+       
+            // in the pi we save the index of where we put the pibot
+            // so that all elements left to the pivot are smaller and all 
+            // elements right to the pibot are bigger than pivot 
             int pi = partition(array, low, high);
 
             // recursive call on the left of pivot
